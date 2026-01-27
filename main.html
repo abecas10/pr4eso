@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Product Recommendation System</h1>
+    <div>
+        <p>Buy a product:</p>
+        <input type="text" id="product">
+        <button id="buy">Buy</button>
+    </div>
+    <div id="info1">
+        <h3>Buyed products:</h3>
+        <p id="boughtProducts"></p>
+    </div>
+    <div>
+        <p>Next Phase: Find similar products based on your purchases</p>
+        <button id="continue">Continue</button>
+    </div>
+    <script>
+        /**
+ * Programa de recomendación de productos
+ * Compatible con Navegadores (Chrome, Firefox, etc.)
+ */
+
+const products = {
+    "Apple": ["fruit", "food", "healthy", "grocery"],
+    "Banana": ["fruit", "food", "healthy", "grocery"],
+    "Orange": ["fruit", "food", "healthy", "grocery"],
+    "Computer": ["electronics", "technology", "pc"],
+    "Laptop": ["electronics", "technology", "pc"],
+    "Smartphone": ["electronics", "technology", "phone"],
+    "Smartwatch": ["electronics", "technology", "watch", "phone"],
+    "Weight": ["healthy", "fitness", "gym", "sports"],
+    "BotleWater": ["healthy", "fitness", "gym", "sports", "drink"],
+    "Coffee": ["food", "grocery", "coffee", "drink"],
+    "Milk": ["food", "grocery", "coffee", "drink", "healthy"],
+    "Tea": ["food", "grocery", "coffee"],
+    "Cookies": ["food", "grocery", "coffee", "snack", "sweet"],
+    "Chocolate": ["food", "grocery", "snack", "sweet"],
+    "Candy": ["food", "grocery", "snack", "sweet"],
+    "Camera": ["electronics", "technology", "camera"],
+    "Headphones": ["electronics", "technology", "phone", "watch"],
+    "PhoneCase": ["electronics", "technology", "phone"],
+    "ScreenProtector": ["electronics", "technology", "phone"],
+    "Mouse": ["electronics", "technology", "pc"],
+    "Keyboard": ["electronics", "technology", "pc"],
+    "Monitor": ["electronics", "technology", "pc", "gaming"],
+    "Printer": ["electronics", "technology", "pc"],
+    "Console": ["electronics", "technology", "gaming"],
+    "GameController": ["electronics", "technology", "gaming"],
+    "Tv": ["electronics", "technology", "gaming", "tv"],
+    "Batteries": ["electronics", "technology", "tv"],
+    "BasketBall": ["sports", "fitness", "basketball"],
+    "Football": ["sports", "fitness", "football"],
+    "EnergyDrink": ["sports", "fitness", "gym", "drink"],
+    "Baseball": ["sports", "fitness", "baseball"],
+    "TennisRacket": ["sports", "fitness", "tennis"],
+    "Tennisball": ["sports", "fitness", "tennis"],
+    "Basketball_Shoes": ["sports", "fitness", "basketball"],
+    "Basketball_Shirt": ["sports", "fitness", "basketball"],
+    "Football_Shoes": ["sports", "fitness", "football"],
+    "Football_Shirt": ["sports", "fitness", "football"],
+    "Energybar": ["sports", "fitness", "gym"],
+    "Baseball_bat": ["sports", "fitness", "baseball"],
+    "Baseball_cap": ["sports", "fitness", "baseball"],
+    "Baseball_glove": ["sports", "fitness", "baseball"],
+    "Baseball_shirt": ["sports", "fitness", "baseball"],
+    "Dog_Food": ["pet", "dog", "food", "grocery"],
+    "Dog_champoo": ["pet", "dog", "grocery"],
+    "Dog_toy": ["pet", "dog", "toy", "grocery"],
+    "Cat_Food": ["pet", "cat", "food", "grocery"],
+    "Cat_toy": ["pet", "cat", "toy", "grocery"],
+    "Beer": ["food", "grocery", "drink", "alcohol"],
+    "Wine": ["food", "grocery", "drink", "alcohol"],
+    "Popcorn": ["food", "grocery", "snack", "salty", "tv"],
+    "Soda": ["food", "grocery", "drink", "tv"],
+    "Juice": ["food", "grocery", "drink", "healthy"],
+    "Eggs": ["food", "grocery", "healthy"],
+    "Tomato": ["food", "grocery", "healthy"]
+};
+
+console.log("Total productos:", Object.keys(products).length);
+
+let buyedProducts = [];
+let buyedtags = [];
+
+document.getElementById("buy").addEventListener("click", () => {
+    let buy = document.getElementById("product").value;
+
+    
+if (products[buy]) {
+    const tags = products[buy];
+    console.log(`Product: ${buy}`);
+    console.log(`Tags: ${tags.join(", ")}`);
+    buyedProducts.push(buy);
+    console.log("Products bought so far:", buyedProducts.join(", "));
+    buyedtags.push("|");
+    buyedtags = buyedtags.concat(tags);
+    console.log("Tags collected so far:", buyedtags);
+
+    document.getElementById("boughtProducts").innerHTML = buyedProducts.join(", ");
+    
+    console.log("--------------");
+
+} else {
+    console.error("Error: Product not found");
+    alert("Error: Product not found. Make sure to use correct capitalization (e.g., 'Apple').");
+}
+
+});
+
+document.getElementById("continue").addEventListener("click", () => {
+    console.log("Finding similar products...");
+
+});
+    </script>
+</body>
+</html>
