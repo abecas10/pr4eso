@@ -4,120 +4,347 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Product Recommendation System</h1>
-    <div>
-        <p>Buy a product:</p>
-        <input type="text" id="product">
-        <button id="buy">Buy</button>
-    </div>
-    <div id="info1">
-        <h3>Buyed products:</h3>
-        <p id="boughtProducts"></p>
-    </div>
-    <div>
-        <p>Next Phase: Find similar products based on your purchases</p>
-        <button id="continue">Continue</button>
-    </div>
-    <script>
-        /**
- * Programa de recomendación de productos
- * Compatible con Navegadores (Chrome, Firefox, etc.)
- */
+    <title>AI Product Recommender</title>
+    <style>
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #000000;
+            text-shadow: 2px 2px #ffffff;
+            letter-spacing: 2px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            font-size: 1.2rem;
+            border: 2px solid #000000;
+            border-radius: 5px;
+        }
 
-const products = {
-    "Apple": ["fruit", "food", "healthy", "grocery"],
-    "Banana": ["fruit", "food", "healthy", "grocery"],
-    "Orange": ["fruit", "food", "healthy", "grocery"],
-    "Computer": ["electronics", "technology", "pc"],
-    "Laptop": ["electronics", "technology", "pc"],
-    "Smartphone": ["electronics", "technology", "phone"],
-    "Smartwatch": ["electronics", "technology", "watch", "phone"],
-    "Weight": ["healthy", "fitness", "gym", "sports"],
-    "BotleWater": ["healthy", "fitness", "gym", "sports", "drink"],
-    "Coffee": ["food", "grocery", "coffee", "drink"],
-    "Milk": ["food", "grocery", "coffee", "drink", "healthy"],
-    "Tea": ["food", "grocery", "coffee"],
-    "Cookies": ["food", "grocery", "coffee", "snack", "sweet"],
-    "Chocolate": ["food", "grocery", "snack", "sweet"],
-    "Candy": ["food", "grocery", "snack", "sweet"],
-    "Camera": ["electronics", "technology", "camera"],
-    "Headphones": ["electronics", "technology", "phone", "watch"],
-    "PhoneCase": ["electronics", "technology", "phone"],
-    "ScreenProtector": ["electronics", "technology", "phone"],
-    "Mouse": ["electronics", "technology", "pc"],
-    "Keyboard": ["electronics", "technology", "pc"],
-    "Monitor": ["electronics", "technology", "pc", "gaming"],
-    "Printer": ["electronics", "technology", "pc"],
-    "Console": ["electronics", "technology", "gaming"],
-    "GameController": ["electronics", "technology", "gaming"],
-    "Tv": ["electronics", "technology", "gaming", "tv"],
-    "Batteries": ["electronics", "technology", "tv"],
-    "BasketBall": ["sports", "fitness", "basketball"],
-    "Football": ["sports", "fitness", "football"],
-    "EnergyDrink": ["sports", "fitness", "gym", "drink"],
-    "Baseball": ["sports", "fitness", "baseball"],
-    "TennisRacket": ["sports", "fitness", "tennis"],
-    "Tennisball": ["sports", "fitness", "tennis"],
-    "Basketball_Shoes": ["sports", "fitness", "basketball"],
-    "Basketball_Shirt": ["sports", "fitness", "basketball"],
-    "Football_Shoes": ["sports", "fitness", "football"],
-    "Football_Shirt": ["sports", "fitness", "football"],
-    "Energybar": ["sports", "fitness", "gym"],
-    "Baseball_bat": ["sports", "fitness", "baseball"],
-    "Baseball_cap": ["sports", "fitness", "baseball"],
-    "Baseball_glove": ["sports", "fitness", "baseball"],
-    "Baseball_shirt": ["sports", "fitness", "baseball"],
-    "Dog_Food": ["pet", "dog", "food", "grocery"],
-    "Dog_champoo": ["pet", "dog", "grocery"],
-    "Dog_toy": ["pet", "dog", "toy", "grocery"],
-    "Cat_Food": ["pet", "cat", "food", "grocery"],
-    "Cat_toy": ["pet", "cat", "toy", "grocery"],
-    "Beer": ["food", "grocery", "drink", "alcohol"],
-    "Wine": ["food", "grocery", "drink", "alcohol"],
-    "Popcorn": ["food", "grocery", "snack", "salty", "tv"],
-    "Soda": ["food", "grocery", "drink", "tv"],
-    "Juice": ["food", "grocery", "drink", "healthy"],
-    "Eggs": ["food", "grocery", "healthy"],
-    "Tomato": ["food", "grocery", "healthy"]
-};
+        button:hover {
+            transition: all 0.3s ease-in-out;
+            background-color: #000000;
+            color: #ffffff;
+            cursor:pointer ;
+        }
 
-console.log("Total productos:", Object.keys(products).length);
-
-let buyedProducts = [];
-let buyedtags = [];
-
-document.getElementById("buy").addEventListener("click", () => {
-    let buy = document.getElementById("product").value;
-
+#buy {
+    /* Colores: un verde vibrante pero con cuerpo */
+    background-color: #28a745; 
+    color: white;
+    border: none;
+    border-radius: 12px;
     
-if (products[buy]) {
-    const tags = products[buy];
-    console.log(`Product: ${buy}`);
-    console.log(`Tags: ${tags.join(", ")}`);
-    buyedProducts.push(buy);
-    console.log("Products bought so far:", buyedProducts.join(", "));
-    buyedtags.push("|");
-    buyedtags = buyedtags.concat(tags);
-    console.log("Tags collected so far:", buyedtags);
-
-    document.getElementById("boughtProducts").innerHTML = buyedProducts.join(", ");
+    padding: 14px 28px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
     
-    console.log("--------------");
-
-} else {
-    console.error("Error: Product not found");
-    alert("Error: Product not found. Make sure to use correct capitalization (e.g., 'Apple').");
+    /* Transición más larga para que el brillo sea "lento" y suave */
+    transition: all 0.5s ease;
+    
+    /* GLOW SUAVE: Solo dos capas con opacidad baja */
+    box-shadow: 
+        0 4px 15px rgba(40, 167, 69, 0.2), 
+        0 0 20px rgba(40, 167, 69, 0.1);
 }
 
-});
+#buy:hover {
+    background-color: #218838; /* Oscurece un poco el fondo */
+    
+    /* Al pasar el ratón, el brillo crece pero se mantiene difuso */
+    box-shadow: 
+        0 6px 25px rgba(40, 167, 69, 0.4), 
+        0 0 40px rgba(40, 167, 69, 0.2);
+        
+    transform: translateY(-3px); /* Pequeña elevación */
+}
 
-document.getElementById("continue").addEventListener("click", () => {
-    console.log("Finding similar products...");
+#buy:active {
+    transform: translateY(2px); 
+    
+    box-shadow: 0 2px 10px rgba(40, 167, 69, 0.2);
+    
+    filter: brightness(0.9);
+}
 
-});
+        #prodImg {
+            max-width: 100px;
+            max-width: 100px;
+            padding: 10px;
+        }
+        .catalog-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            flex-direction: column;
+            border: 2px solid #000000;
+            border-radius: 10px;
+        }
+        #catalogList {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <h1>Recommendation Engine</h1>
+        
+        <div class="input-group">
+            <label for="product">Find Product</label>
+
+            <button id="toggleCatalog" class="catalog-toggle">Show Available (54)</button>
+            
+            <input type="text" id="product" placeholder="e.g., Apple, Laptop, Smartphone..." autocomplete="off">
+            
+            <div id="catalogList" class="catalog-list">
+            </div>
+
+            <button id="buy">Add to Cart</button>
+        </div>
+
+        <div class="results-area">
+            <h3>Cart Items</h3>
+            <div id="boughtProducts">
+                <span class="empty-msg">Your cart is empty...</span>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>Ready for the next step?</label>
+            <button id="continue">Analyze & Recommend</button>
+        </div>
+        
+        <footer>
+            <p class="status-msg">Made by: Alex Castella & Gabriel Cereto</p>
+        </footer>
+    </div>
+
+    <script>
+        /**
+         * Programa de recomendación de productos
+         * Creado por Alex Castella & Gabriel Cereto
+         */
+
+        const products = {
+            "Apple": ["fruit", "food", "healthy", "grocery"],
+            "Banana": ["fruit", "food", "healthy", "grocery"],
+            "Orange": ["fruit", "food", "healthy", "grocery"],
+            "Computer": ["electronics", "technology", "pc"],
+            "Laptop": ["electronics", "technology", "pc"],
+            "Smartphone": ["electronics", "technology", "phone"],
+            "Smartwatch": ["electronics", "technology", "watch", "phone"],
+            "Weight": ["healthy", "fitness", "gym", "sports"],
+            "BotleWater": ["healthy", "fitness", "gym", "sports", "drink"],
+            "Coffee": ["food", "grocery", "coffee", "drink"],
+            "Milk": ["food", "grocery", "coffee", "drink", "healthy"],
+            "Tea": ["food", "grocery", "coffee"],
+            "Cookies": ["food", "grocery", "coffee", "snack", "sweet"],
+            "Chocolate": ["food", "grocery", "snack", "sweet"],
+            "Candy": ["food", "grocery", "snack", "sweet"],
+            "Camera": ["electronics", "technology", "camera"],
+            "Headphones": ["electronics", "technology", "phone", "watch"],
+            "PhoneCase": ["electronics", "technology", "phone"],
+            "ScreenProtector": ["electronics", "technology", "phone"],
+            "Mouse": ["electronics", "technology", "pc"],
+            "Keyboard": ["electronics", "technology", "pc"],
+            "Monitor": ["electronics", "technology", "pc", "gaming"],
+            "Printer": ["electronics", "technology", "pc"],
+            "Console": ["electronics", "technology", "gaming"],
+            "GameController": ["electronics", "technology", "gaming"],
+            "Tv": ["electronics", "technology", "gaming", "tv"],
+            "Batteries": ["electronics", "technology", "tv"],
+            "BasketBall": ["sports", "fitness", "basketball"],
+            "Football": ["sports", "fitness", "football"],
+            "EnergyDrink": ["sports", "fitness", "gym", "drink"],
+            "Baseball": ["sports", "fitness", "baseball"],
+            "TennisRacket": ["sports", "fitness", "tennis"],
+            "Tennisball": ["sports", "fitness", "tennis"],
+            "Basketball_Shoes": ["sports", "fitness", "basketball"],
+            "Basketball_Shirt": ["sports", "fitness", "basketball"],
+            "Football_Shoes": ["sports", "fitness", "football"],
+            "Football_Shirt": ["sports", "fitness", "football"],
+            "Energybar": ["sports", "fitness", "gym"],
+            "Baseball_bat": ["sports", "fitness", "baseball"],
+            "Baseball_cap": ["sports", "fitness", "baseball"],
+            "Baseball_glove": ["sports", "fitness", "baseball"],
+            "Baseball_shirt": ["sports", "fitness", "baseball"],
+            "Dog_Food": ["pet", "dog", "food", "grocery"],
+            "Dog_champoo": ["pet", "dog", "grocery"],
+            "Dog_toy": ["pet", "dog", "toy", "grocery"],
+            "Cat_Food": ["pet", "cat", "food", "grocery"],
+            "Cat_toy": ["pet", "cat", "toy", "grocery"],
+            "Beer": ["food", "grocery", "drink", "alcohol"],
+            "Wine": ["food", "grocery", "drink", "alcohol"],
+            "Popcorn": ["food", "grocery", "snack", "salty", "tv"],
+            "Soda": ["food", "grocery", "drink", "tv"],
+            "Juice": ["food", "grocery", "drink", "healthy"],
+            "Eggs": ["food", "grocery", "healthy"],
+            "Tomato": ["food", "grocery", "healthy"]
+        };
+
+        console.log("Total productos:", Object.keys(products).length);
+
+        let buyedProducts = [];
+        let buyedtags = [];
+
+        let productsimg = {
+            "Apple": "https://target.scene7.com/is/image/Target/GUEST_14ef7290-1621-47e0-8c52-1f604be1c022?wid=300&hei=300&fmt=pjpeg",
+            "Banana": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Cavendish_Banana_DS.jpg",
+            "Orange": "https://www.quanta.org/orange/orange.jpg",
+            "Computer": "https://image.made-in-china.com/202f0j00bRzomWhqhaki/Normal-Office-ATX-PC-Case-Casing-CPU-Cabinet-Computer-Case-for-Office.webp",
+            "Laptop": "https://p1-ofp.static.pub//fes/cms/2024/12/10/3mfkhloa9qzv687jq9zpv5iclapxfy749928.png?width=400&height=400",
+            "Smartphone": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-202509-black_GEO_EMEA?wid=5120&hei=2880&fmt=webp&qlt=90&.v=WGdCRlQ0YVlqbTdXTEkxRnVQb0oxa3pYQjBteGp2cFFHL09TNGhVUUhxeWo2VUVzcmZ5OEgyS012Ry8yTDQ1bTBoUVhuTWlrY2hIK090ZGZZbk9HeEJWb1BiTjRORlc1Y1lKU3JWempySktjazd3VTl3TzZzZTVUZkZybC92M1hmbW94YnYxc1YvNXZ4emJGL0IxNFp3&traceId=1",
+            "Smartwatch": "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_142776373?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402",
+            "Weight": "https://www.trendingfit.com/5486-large_default/mancuernas-hexagonales-set-2-und-de-1kg-a-175kg.jpg",
+            "BotleWater": "https://products.mondaymerch.com/_vercel/image?url=https:%2F%2Fmondaymerch.com%2Fv1%2Fimages%2Fimages%2Fpublic%2Fproduct.product%2F104027%2F1920%2Fimage_1920%2F3663868d54&w=1536&q=80",
+            "Coffee": "https://statics.dinoonline.com.ar/imagenes/full_600x600_ma/2030304_f.jpg",
+            "Milk": "https://kerrsdairy.co.uk/wp-content/uploads/2021/12/1-Litre-Whole-Milk-Poly-Carton.jpg.webp",
+            "Tea": "https://www.evoluteadrinks.com/wp-content/uploads/2021/08/2-EVOLUTEA-4-2.jpg",
+            "Cookies": "https://www.shutterstock.com/image-photo/stacked-vanilla-chocolate-coockies-600nw-1988858546.jpg",
+            "Chocolate": "https://petramora.com/cdn/shop/files/w-45000429-tableta-chocolate-madagascar-kankel-03.jpg?crop=center&height=2433&v=1701247620&width=1946",
+            "Candy": "https://godisfabrica.com/wp-content/uploads/2025/06/IMG_6868.jpeg",
+            "Camera": "https://cdn.supercommerce.io/kareem/uploads/1603796831_1558260-1649788878.jpg",
+            "Headphones": "https://sony.scene7.com/is/image/sonyglobalsolutions/Headphones_Product-finder_WH-1000XM6?$productFinder$&fmt=png-alpha",
+            "PhoneCase": "https://bellroy-product-images.imgix.net//bellroy_dot_com_gallery_image/USD/PCXE-GRA-107/0",
+            "ScreenProtector": "https://www.quadlockcase.com/cdn/shop/files/iP16_CASE_ScreenProtector.png?v=1726182693",
+            "Mouse": "https://resource.logitechg.com/w_544,h_466,ar_7:6,c_pad,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/gaming/en/products/pro-x-superlight-2c-pdp/gallery/pro-x-superlight-2c-mouse-top-angle-black-gallery-1.png",
+            "Keyboard": "https://m.media-amazon.com/images/I/61yNwMgjtcL._AC_UF894,1000_QL80_.jpg",
+            "Monitor": "https://assets.mmsrg.com/ada/166325/c1/-/-/ASSET_MMS_143549054/fee_786_587_png",
+            "Printer": "https://www.brildor.com/media/catalog/product/cache/58962a4e45e88592aceacb17446e5188/i/m/impresora-inkjet-a4-epson-ecotank-et-d10.webp",
+            "Console": "https://media.ldlc.com/r705/ld/products/00/06/17/73/LD0006177357.jpg",
+            "GameController": "https://thumb.pccomponentes.com/w-530-530/articles/32/323970/1933-sony-dualsense-mando-inalambrico-para-ps5.jpg",
+            "Tv": "https://m.media-amazon.com/images/I/81pieXC63IL._AC_UF894,1000_QL80_.jpg",
+            "Batteries": "https://www.readyamerica.com/wp-content/uploads/2020/12/76603-Duracell-AA-Size-Batteries-2000x.jpg",
+            "BasketBall": "https://www.wilson.com/it-it/media/catalog/product/article_images/WTB7500ID_/WTB7500ID__b722ae318490e0f2e686864dc70fd730.png",
+            "Football": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Football_%28soccer_ball%29.svg/960px-Football_%28soccer_ball%29.svg.png",
+            "EnergyDrink": "https://fitfatmarket.com/wp-content/uploads/2023/05/energy-zero-sugar-verde.jpg",
+            "Baseball": "https://images.nexusapp.co/assets/6c/ff/c7/153432774.jpg",
+            "TennisRacket": "https://wilsonme.com/cdn/shop/files/wr150111u_1_1000x.png?v=1762783568",
+            "Tennisball": "https://www.tennis-point.es/dw/image/v2/BBDP_PRD/on/demandware.static/-/Sites-master-catalog/default/dw7d400f07/images/007/250/01632000_0_2.jpg?q=80&sw=2000",
+            "Basketball_Shoes": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYUTG_Zo8wosaNDsN-qKkGiEhhLKYDCuzhqw&s",
+            "Basketball_Shirt": "https://store.fcbarcelona.com/cdn/shop/files/1RA-EQ_5a24720c-2918-4dff-a4e5-617af8e4f113.jpg?v=1758795896&width=1200",
+            "Football_Shoes": "https://www.futbolemotion.com/imagesarticulos/243542/grandes/bota-adidas-f50-fg-ftwr-white-core-black-solar-yellow-0.webp",
+            "Football_Shirt": "https://www.footballandshirts.com/cdn/shop/files/00265BAR-1web_e7cc277b-598a-4a04-ae9a-3114f83adbe9_1500x.jpg?v=1691171131",
+            "Energybar": "https://crownsportnutrition.com/wp-content/uploads/2019/10/1-8437014956771.jpg",
+            "Baseball_bat": "https://nordicsport.com/cdn/shop/files/Layer729_1200x1200.jpg?v=1741551744",
+            "Baseball_cap": "https://store.moma.org/cdn/shop/files/3a2b0b12-bde3-4a63-bba2-b561dbd7de29_5fa67989-c4a0-4bea-a74b-fb25ed894895.jpg?v=1710971142",
+            "Baseball_glove": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT70YPXuB2W6js2Asr0h1KeAwglKjPsUzotQg&s",
+            "Baseball_shirt": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpX31mgLHPArMzMg2uCOt8u1sMXzquTk7NLQ&s",
+            "Dog_Food": "https://www.postconsumerbrands.com/wp-content/uploads/2024/03/Kibblesn-Bits-Bacon-Steak-Flavor-Dry-Dog-Food-3.5LB-1024x1024.png",
+            "Dog_champoo": "https://www.lookfantastic.es/images?url=https://static.thcdn.com/productimg/original/13139729-8354868167542279.jpg&format=webp&auto=avif&width=985&height=985&fit=cover",
+            "Dog_toy": "https://www.feedem.co.uk/images/kong-airdog-squeaker-bone-dog-toy-medium-p12004-31812_image.jpg",
+            "Cat_Food": "https://i5.walmartimages.com/asr/1f4dfbb1-d89c-45b8-a5b3-70500bb34dba.db0ee671b1744c49dac7ebfde46bf38d.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF",
+            "Cat_toy": "https://cdn11.bigcommerce.com/s-asivtkjxr8/images/stencil/1280x1280/products/2115/7014/bly00acn3mrwvaiceph8__78953.1630111762.jpg?c=1",
+            "Beer":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMeUgd0ptS7YRixjSAmCQzDptfIp4bLRf8zA&s",
+            "Wine": "https://www.premierestateswine.co.uk/cdn/shop/products/Montepulciano-DAbruzzo_234eb781-0155-43cc-93c8-6c5fed04c918_1024x1024.jpg?v=1631865915",
+            "Popcorn": "https://m.media-amazon.com/images/I/61ADQzFODSL.jpg",
+            "Soda": "https://comerciovending.com/17648-medium_default/cocacola-original-330ml.jpg",
+            "Juice": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Orange_juice_1.jpg",
+            "Eggs": "https://cdn.britannica.com/94/151894-050-F72A5317/Brown-eggs.jpg",
+            "Tomato":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Bright_red_tomato_and_cross_section02.jpg/1280px-Bright_red_tomato_and_cross_section02.jpg"
+        };
+
+        const catalogList = document.getElementById("catalogList");
+        const toggleBtn = document.getElementById("toggleCatalog");
+
+        Object.keys(products).sort().forEach(prod => {
+            const item = document.createElement("div");
+            item.className = "catalog-item";
+            
+            item.innerHTML = `
+                <img src="${productsimg[prod]}" alt="${prod}" id="prodImg">
+                <p>${prod}</p>
+            `;
+
+            item.onclick = () => {
+                document.getElementById("product").value = prod;
+                document.getElementById("product").focus();
+            };
+            catalogList.appendChild(item);
+        });
+
+        toggleBtn.addEventListener("click", () => {
+            catalogList.classList.toggle("open");
+            if(catalogList.classList.contains("open")){
+                toggleBtn.innerText = "Hide Catalog";
+            } else {
+                toggleBtn.innerText = `Show Available (${Object.keys(products).length})`;
+            }
+        });
+
+        function renderProducts() {
+            const container = document.getElementById("boughtProducts");
+            if (buyedProducts.length === 0) {
+                container.innerHTML = '<span class="empty-msg">Your cart is empty...</span>';
+                return;
+            }
+            container.innerHTML = buyedProducts.map(product => 
+                `<div class="product-chip">${product}</div>`
+            ).join("");
+        }
+
+        document.getElementById("buy").addEventListener("click", () => {
+            const inputField = document.getElementById("product");
+            let buy = inputField.value.trim();
+
+            if (products[buy]) {
+                const tags = products[buy];
+                console.log(`Product: ${buy}`);
+                console.log(`Tags: ${tags.join(", ")}`);
+                
+                buyedProducts.push(buy);
+                
+                console.log("Products bought so far:", buyedProducts.join(", "));
+                buyedtags.push("|");
+                buyedtags = buyedtags.concat(tags);
+                console.log("Tags collected so far:", buyedtags);
+
+                renderProducts();
+                
+                inputField.value = "";
+                inputField.focus();
+                
+                console.log("--------------");
+
+            } else {
+                console.error("Error: Product not found");
+                inputField.classList.add('error-shake');
+                inputField.placeholder = "Not found! Check the list above ↑";
+                inputField.value = "";
+                setTimeout(() => {
+                    inputField.classList.remove('error-shake');
+                    inputField.placeholder = "e.g., Apple, Laptop, Smartphone...";
+                }, 1500);
+            }
+        });
+
+        document.getElementById("product").addEventListener("keypress", function (e) {
+            if (e.key === 'Enter') {
+                document.getElementById("buy").click();
+            }
+        });
+
+        document.getElementById("continue").addEventListener("click", () => {
+            console.log("Finding similar products...");
+            const btn = document.getElementById("continue");
+            const originalText = btn.innerText;
+            btn.innerText = "Processing...";
+            btn.style.opacity = "0.7";
+            
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.opacity = "1";
+                // Aquí se podría agregar lógica para mostrar recomendaciones
+            }, 1000);
+        });
     </script>
 </body>
 </html>
