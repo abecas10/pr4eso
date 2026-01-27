@@ -4,8 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Product Recommender</title>
+    <title>Product Recommender</title>
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
         h1 {
             text-align: center;
             margin-bottom: 20px;
@@ -21,6 +27,11 @@
             font-size: 1.2rem;
             border: 2px solid #000000;
             border-radius: 5px;
+            max-width: 200px;
+            margin-bottom: 10px;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
         }
 
         button:hover {
@@ -37,18 +48,20 @@
     border: none;
     border-radius: 12px;
     
-    padding: 14px 28px;
-    font-family: 'Poppins', sans-serif;
     font-weight: 600;
     cursor: pointer;
     
-    /* Transición más larga para que el brillo sea "lento" y suave */
     transition: all 0.5s ease;
     
     /* GLOW SUAVE: Solo dos capas con opacidad baja */
     box-shadow: 
         0 4px 15px rgba(40, 167, 69, 0.2), 
         0 0 20px rgba(40, 167, 69, 0.1);
+    width: 150px;
+    height: 35px;
+    font-size: 1rem;
+    align-items: center;
+    justify-content: center;
 }
 
 #buy:hover {
@@ -70,26 +83,225 @@
     filter: brightness(0.9);
 }
 
+#continue {
+    /* Colores: un azul vibrante y profesional */
+    background-color: #007bff; 
+    color: white;
+    border: none;
+    border-radius: 12px;
+    
+    font-weight: 600;
+    cursor: pointer;
+    
+    transition: all 0.5s ease;
+    
+    /* GLOW SUAVE AZUL: Basado en el tono del botón con baja opacidad */
+    box-shadow: 
+        0 4px 15px rgba(0, 123, 255, 0.2), 
+        0 0 20px rgba(0, 123, 255, 0.1);
+        
+    /* Dimensiones solicitadas */
+    width: 250px; /* Lo he ampliado un poco para que quepa bien el texto "Analyze & Recommend" */
+    height: 45px;
+    font-size: 1rem;
+    display: flex; /* Necesario para que el centrado funcione */
+    align-items: center;
+    justify-content: center;
+}
+
+#continue:hover {
+    background-color: #0069d9; /* Azul un poco más oscuro al pasar el mouse */
+    
+    /* El brillo azul se expande de forma difusa */
+    box-shadow: 
+        0 6px 25px rgba(0, 123, 255, 0.4), 
+        0 0 40px rgba(0, 123, 255, 0.2);
+        
+    transform: translateY(-3px); /* Elevación suave */
+}
+
+#continue:active {
+    transform: translateY(2px); /* Efecto de hundimiento al hacer click */
+    
+    /* La sombra se contrae al presionar */
+    box-shadow: 0 2px 10px rgba(0, 123, 255, 0.2);
+    
+    filter: brightness(0.9); /* Oscurecimiento momentáneo */
+}
+
         #prodImg {
-            max-width: 100px;
-            max-width: 100px;
+            max-width: 80px;
+            max-width: 80px;
             padding: 10px;
         }
         .catalog-item {
             display: flex;
             align-items: center;
-            gap: 10px;
             cursor: pointer;
             flex-direction: column;
             border: 2px solid #000000;
-            border-radius: 10px;
+            border-radius: 15px;
+            margin: 10px;
         }
         #catalogList {
             display: flex;
             flex-direction: row;
             gap: 30px;
             flex-wrap: wrap;
+            border: #000000 solid 2px;
+            border-radius: 15px;
+            max-height: 400px;
+            overflow-y: scroll;
+            max-width: 845px;
+            margin: 20px;
+            box-shadow: #000000 0px 0px 10px;
+            scrollbar-width: none;
+            align-items: center;
+            justify-content: center;
         }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            border: #000000 solid 2px;
+            max-width: 1000px;
+            border-radius: 15px;
+        }
+        .catalog-toggle {
+            background-color: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: #0606e8;
+            background-color: #ffffff;
+            margin-top: none;
+            align-items: flex-end;
+            justify-content: flex-end;
+            
+        }
+        .catalog-toggle:hover {
+            transition: all 0.3s ease-in-out;
+            background-color: none;
+            border: none;
+            cursor: pointer;
+            color: #0606e8;
+            background-color: #ffffff;
+            font-size: 1rem;
+            text-decoration: underline;
+        }
+        h2 {
+            font-size: 1.5rem;
+            text-decoration: underline;
+            margin-bottom: 10px;
+            max-width: 200px;
+        }
+
+.header-inline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 2000px;
+    margin: 10px;
+}
+
+.header-inline h2 {
+    margin: 0; 
+    text-decoration: underline;
+}
+
+.catalog-toggle {
+    margin: 0 !important;
+    margin-right: 10px !important;
+    white-space: nowrap;
+    transition: all 0.3s ease-in-out;
+}
+#catalogList {
+    display: none;
+    flex-direction: row;
+    gap: 30px;
+    flex-wrap: wrap;
+    border: #000000 solid 2px;
+    border-radius: 15px;
+    max-height: 400px;
+    overflow-y: scroll;
+    max-width: 845px;
+    margin: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+#catalogList.open {
+    display: flex;
+    transition: all 0.3s ease-in-out;
+}
+#product {
+    padding: 10px;
+    font-size: 0.8rem;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    margin: 10px;
+}
+#product.error-shake {
+    animation: shake 0.5s;
+}
+.results-area {
+    border: #000000 solid 2px;
+    border-radius: 15px;
+    max-width: 1000px;
+    padding: 10px;
+    margin: 20px 0;
+}
+h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    text-decoration: underline;
+    margin-top: 0;
+}
+#boughtProducts {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    max-width: 950px;
+    margin: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.product-chip {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    cursor: pointer;
+
+    flex-direction: column;
+
+    border: 2px solid #000000;
+
+    border-radius: 15px;
+
+    margin: 10px;
+
+    padding: 10px;
+
+    transition: all 0.3s ease-in-out;
+
+}
+footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #000000;
+    border-top: #000000 solid 2px;
+    padding-top: 10px;
+    max-width: 1000px;
+    margin: 20px 0;
+    align-items: center;
+    justify-content: center;
+}
     </style>
 </head>
 <body>
@@ -98,12 +310,11 @@
         <h1>Recommendation Engine</h1>
         
         <div class="input-group">
-            <label for="product">Find Product</label>
-
-            <button id="toggleCatalog" class="catalog-toggle">Show Available (54)</button>
+            <div class="header-inline"> <h2 for="product">Find Product</h2>
+                <button id="toggleCatalog" class="catalog-toggle">Show Available (54)</button>
+            </div>
             
             <input type="text" id="product" placeholder="e.g., Apple, Laptop, Smartphone..." autocomplete="off">
-            
             <div id="catalogList" class="catalog-list">
             </div>
 
@@ -118,7 +329,6 @@
         </div>
 
         <div class="input-group">
-            <label>Ready for the next step?</label>
             <button id="continue">Analyze & Recommend</button>
         </div>
         
@@ -287,7 +497,10 @@
                 return;
             }
             container.innerHTML = buyedProducts.map(product => 
-                `<div class="product-chip">${product}</div>`
+                `<div class="product-chip">
+                    <img src="${productsimg[product]}" alt="${product}" id="prodImg">
+                <p>${product}</p>
+                    </div>`
             ).join("");
         }
 
@@ -317,7 +530,7 @@
             } else {
                 console.error("Error: Product not found");
                 inputField.classList.add('error-shake');
-                inputField.placeholder = "Not found! Check the list above ↑";
+                inputField.placeholder = "Not found!";
                 inputField.value = "";
                 setTimeout(() => {
                     inputField.classList.remove('error-shake');
@@ -342,7 +555,8 @@
             setTimeout(() => {
                 btn.innerText = originalText;
                 btn.style.opacity = "1";
-                // Aquí se podría agregar lógica para mostrar recomendaciones
+                document.getElementById("continue").remove();
+                //Aqui
             }, 1000);
         });
     </script>
