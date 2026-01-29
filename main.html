@@ -1,3 +1,6 @@
+<!-- Made by: Alex Castella & Gabriel Cereto -->
+<!-- Basic recomendation engine -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,7 +45,6 @@
         }
 
 #buy {
-    /* Colores: un verde vibrante pero con cuerpo */
     background-color: #28a745; 
     color: white;
     border: none;
@@ -53,7 +55,6 @@
     
     transition: all 0.5s ease;
     
-    /* GLOW SUAVE: Solo dos capas con opacidad baja */
     box-shadow: 
         0 4px 15px rgba(40, 167, 69, 0.2), 
         0 0 20px rgba(40, 167, 69, 0.1);
@@ -65,14 +66,13 @@
 }
 
 #buy:hover {
-    background-color: #218838; /* Oscurece un poco el fondo */
+    background-color: #218838;
     
-    /* Al pasar el ratón, el brillo crece pero se mantiene difuso */
     box-shadow: 
         0 6px 25px rgba(40, 167, 69, 0.4), 
         0 0 40px rgba(40, 167, 69, 0.2);
         
-    transform: translateY(-3px); /* Pequeña elevación */
+    transform: translateY(-3px);
 }
 
 #buy:active {
@@ -84,7 +84,6 @@
 }
 
 #continue {
-    /* Colores: un azul vibrante y profesional */
     background-color: #007bff; 
     color: white;
     border: none;
@@ -95,38 +94,34 @@
     
     transition: all 0.5s ease;
     
-    /* GLOW SUAVE AZUL: Basado en el tono del botón con baja opacidad */
     box-shadow: 
         0 4px 15px rgba(0, 123, 255, 0.2), 
         0 0 20px rgba(0, 123, 255, 0.1);
         
-    /* Dimensiones solicitadas */
-    width: 250px; /* Lo he ampliado un poco para que quepa bien el texto "Analyze & Recommend" */
+    width: 250px;
     height: 45px;
     font-size: 1rem;
-    display: flex; /* Necesario para que el centrado funcione */
+    display: flex;
     align-items: center;
     justify-content: center;
 }
 
 #continue:hover {
-    background-color: #0069d9; /* Azul un poco más oscuro al pasar el mouse */
+    background-color: #0069d9;
     
-    /* El brillo azul se expande de forma difusa */
     box-shadow: 
         0 6px 25px rgba(0, 123, 255, 0.4), 
         0 0 40px rgba(0, 123, 255, 0.2);
         
-    transform: translateY(-3px); /* Elevación suave */
+    transform: translateY(-3px);
 }
 
 #continue:active {
-    transform: translateY(2px); /* Efecto de hundimiento al hacer click */
+    transform: translateY(2px);
     
-    /* La sombra se contrae al presionar */
     box-shadow: 0 2px 10px rgba(0, 123, 255, 0.2);
     
-    filter: brightness(0.9); /* Oscurecimiento momentáneo */
+    filter: brightness(0.9);
 }
 
         #prodImg {
@@ -302,6 +297,34 @@ footer {
     align-items: center;
     justify-content: center;
 }
+#recomendations-title {
+    margin-left: 10px;
+    text-decoration: underline;
+}
+#recomendations {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    max-width: 950px;
+    margin: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+#notRecomendations-title {
+    margin-left: 10px;
+    text-decoration: underline;
+}
+#notRecomendations {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    max-width: 950px;
+    margin: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
     </style>
 </head>
 <body>
@@ -330,6 +353,13 @@ footer {
 
         <div class="input-group">
             <button id="continue">Analyze & Recommend</button>
+            <h3 id="recomendations-title">Recommendations:</h3>
+            <div id="recomendations">
+            </div>
+            <h3 id="notRecomendations-title">Not Recommendations:</h3>
+            <div id="notRecomendations"></div>
+
+            </div>
         </div>
         
         <footer>
@@ -338,27 +368,23 @@ footer {
     </div>
 
     <script>
-        /**
-         * Programa de recomendación de productos
-         * Creado por Alex Castella & Gabriel Cereto
-         */
 
         const products = {
-            "Apple": ["fruit", "food", "healthy", "grocery"],
-            "Banana": ["fruit", "food", "healthy", "grocery"],
-            "Orange": ["fruit", "food", "healthy", "grocery"],
+            "Apple": ["fruit", "food", "healthy"],
+            "Banana": ["fruit", "food", "healthy"],
+            "Orange": ["fruit", "food", "healthy"],
             "Computer": ["electronics", "technology", "pc"],
             "Laptop": ["electronics", "technology", "pc"],
             "Smartphone": ["electronics", "technology", "phone"],
             "Smartwatch": ["electronics", "technology", "watch", "phone"],
             "Weight": ["healthy", "fitness", "gym", "sports"],
             "BotleWater": ["healthy", "fitness", "gym", "sports", "drink"],
-            "Coffee": ["food", "grocery", "coffee", "drink"],
-            "Milk": ["food", "grocery", "coffee", "drink", "healthy"],
-            "Tea": ["food", "grocery", "coffee"],
-            "Cookies": ["food", "grocery", "coffee", "snack", "sweet"],
-            "Chocolate": ["food", "grocery", "snack", "sweet"],
-            "Candy": ["food", "grocery", "snack", "sweet"],
+            "Coffee": ["food", "coffee", "drink"],
+            "Milk": ["food", "coffee", "drink", "healthy"],
+            "Tea": ["food", "coffee"],
+            "Cookies": ["food", "coffee", "snack", "sweet"],
+            "Chocolate": ["food", "snack", "sweet"],
+            "Candy": ["food", "snack", "sweet"],
             "Camera": ["electronics", "technology", "camera"],
             "Headphones": ["electronics", "technology", "phone", "watch"],
             "PhoneCase": ["electronics", "technology", "phone"],
@@ -386,24 +412,24 @@ footer {
             "Baseball_cap": ["sports", "fitness", "baseball"],
             "Baseball_glove": ["sports", "fitness", "baseball"],
             "Baseball_shirt": ["sports", "fitness", "baseball"],
-            "Dog_Food": ["pet", "dog", "food", "grocery"],
-            "Dog_champoo": ["pet", "dog", "grocery"],
-            "Dog_toy": ["pet", "dog", "toy", "grocery"],
-            "Cat_Food": ["pet", "cat", "food", "grocery"],
-            "Cat_toy": ["pet", "cat", "toy", "grocery"],
-            "Beer": ["food", "grocery", "drink", "alcohol"],
-            "Wine": ["food", "grocery", "drink", "alcohol"],
-            "Popcorn": ["food", "grocery", "snack", "salty", "tv"],
-            "Soda": ["food", "grocery", "drink", "tv"],
-            "Juice": ["food", "grocery", "drink", "healthy"],
-            "Eggs": ["food", "grocery", "healthy"],
-            "Tomato": ["food", "grocery", "healthy"]
+            "Dog_Food": ["pet", "dog", "food"],
+            "Dog_champoo": ["pet", "dog"],
+            "Dog_toy": ["pet", "dog", "toy"],
+            "Cat_Food": ["pet", "cat", "food"],
+            "Cat_toy": ["pet", "cat", "toy"],
+            "Beer": ["food", "drink", "alcohol"],
+            "Wine": ["food", "drink", "alcohol"],
+            "Popcorn": ["food", "snack", "salty", "tv"],
+            "Soda": ["food", "drink", "tv"],
+            "Juice": ["food", "drink", "healthy"],
+            "Eggs": ["food", "healthy"],
+            "Tomato": ["food", "healthy"]
         };
 
         console.log("Total productos:", Object.keys(products).length);
 
         let buyedProducts = [];
-        let buyedtags = [];
+        let buyedtags = {};
 
         let productsimg = {
             "Apple": "https://target.scene7.com/is/image/Target/GUEST_14ef7290-1621-47e0-8c52-1f604be1c022?wid=300&hei=300&fmt=pjpeg",
@@ -516,9 +542,16 @@ footer {
                 buyedProducts.push(buy);
                 
                 console.log("Products bought so far:", buyedProducts.join(", "));
-                buyedtags.push("|");
-                buyedtags = buyedtags.concat(tags);
-                console.log("Tags collected so far:", buyedtags);
+                
+                for (let i = 0; i < tags.length; i++) {
+                    if (buyedtags[tags[i]]) {
+                        buyedtags[tags[i]]++;
+                    } else {
+                        buyedtags[tags[i]] = 1;
+                    }
+                }
+
+                console.log("Tags bought so far:", buyedtags);
 
                 renderProducts();
                 
@@ -556,7 +589,117 @@ footer {
                 btn.innerText = originalText;
                 btn.style.opacity = "1";
                 document.getElementById("continue").remove();
-                //Aqui
+                space = document.getElementById("recomendations")
+                
+                let puntos = {
+                    "Apple": 0,
+                    "Banana": 0,
+                    "Orange": 0,
+                    "Computer": 0,
+                    "Laptop": 0,
+                    "Smartphone": 0,
+                    "Smartwatch": 0,
+                    "Weight": 0,
+                    "BotleWater": 0,
+                    "Coffee": 0,
+                    "Milk": 0,
+                    "Tea": 0,
+                    "Cookies": 0,
+                    "Chocolate": 0,
+                    "Candy": 0,
+                    "Camera": 0,
+                    "Headphones": 0,
+                    "PhoneCase": 0,
+                    "ScreenProtector": 0,
+                    "Mouse": 0,
+                    "Keyboard": 0,
+                    "Monitor": 0,
+                    "Printer": 0,
+                    "Console": 0,
+                    "GameController": 0,
+                    "Tv": 0,
+                    "Batteries": 0,
+                    "BasketBall": 0,
+                    "Football": 0,
+                    "EnergyDrink": 0,
+                    "Baseball": 0,
+                    "TennisRacket": 0,
+                    "Tennisball": 0,
+                    "Basketball_Shoes": 0,
+                    "Basketball_Shirt": 0,
+                    "Football_Shoes": 0,
+                    "Football_Shirt": 0,
+                    "Energybar": 0,
+                    "Baseball_bat": 0,
+                    "Baseball_cap": 0,
+                    "Baseball_glove": 0,
+                    "Baseball_shirt": 0,
+                    "Dog_Food": 0,
+                    "Dog_champoo": 0,
+                    "Dog_toy": 0,
+                    "Cat_Food": 0,
+                    "Cat_toy": 0,
+                    "Beer": 0,
+                    "Wine": 0,
+                    "Popcorn": 0,
+                    "Soda": 0,
+                    "Juice": 0,
+                    "Eggs": 0,                    
+                    "Tomato": 0
+                };
+
+                for (let i in puntos) {
+                    for (let t in buyedProducts) {
+                        if (i === buyedProducts[t]) {
+                            puntos[i] = -1;
+                        }
+                    }
+                }
+
+                for (let i in puntos) {
+                    if (puntos[i] === -1) continue;
+                    for (let t in products[i]) {
+                        if (buyedtags[products[i][t]]) {
+                            puntos[i] += buyedtags[products[i][t]];
+                        }
+                    }
+                }
+
+                console.log("Puntos:", puntos);
+
+                let recomendaciones = [];
+
+                puntos = Object.fromEntries(Object.entries(puntos).sort((a, b) => b[1] - a[1]));
+
+                for (let i in puntos) {
+                    if (puntos[i] > 0) {
+                        recomendaciones.push(i);
+                    }
+                }
+                notrecomended = Object.keys(products).filter(product => !recomendaciones.includes(product));
+                for (let i in notrecomended) {
+                    if (puntos[notrecomended[i]] === -1) {
+                        notrecomended.splice(i, 1);
+                    }
+                }
+                console.log("Recomendaciones:", recomendaciones);
+                console.log("No recomendados:", notrecomended);
+
+                space.innerHTML = recomendaciones.map(product => 
+                    `
+                    <div class="product-chip">
+                        <img src="${productsimg[product]}" alt="${product}" id="prodImg">
+                    <p>${product}</p>
+                        </div>`
+                ).join("");
+                space2 = document.getElementById("notRecomendations")
+                space2.innerHTML = notrecomended.map(product =>
+                    `
+                    <div class="product-chip">
+                        <img src="${productsimg[product]}" alt="${product}" id="prodImg">
+                    <p>${product}</p>
+                        </div>`
+                ).join("");
             }, 1000);
         });
     </script>
